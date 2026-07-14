@@ -21,5 +21,8 @@ public class LoginPageTest extends BaseTest {
         login.clickContinue();
         login.enterPassword("123456");
         login.clickSignIn();
+        
+     // Login Feature Branch
+        System.out.println("Login Feature Branch");
     }
 }
