@@ -4,20 +4,9 @@ target/
 # TestNG
 test-output/
 
-# Reports
-reports/
+# Generated Reports
+/reports/
 
-# Screenshots
-Screenshots/
-
-# Eclipse
-.settings/
-.classpath
-.project
-
-# Logs
-*.log
-
-# OS Files
-.DS_Store
-Thumbs.db
+# Don't ignore Java source package
+!src/main/java/reports/
+!src/main/java/reports/**
