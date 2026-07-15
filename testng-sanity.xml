@@ -4,6 +4,10 @@
 
 <suite name="Sanity Suite">
 
+   <listeners>
+        <listener class-name="listeners.TestListener"/>
+    </listeners>
+
     <test name="Sanity Test">
 
         <classes>

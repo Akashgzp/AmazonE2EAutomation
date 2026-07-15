@@ -4,6 +4,10 @@
 
 <suite name="Regression Suite">
 
+     <listeners>
+        <listener class-name="listeners.TestListener"/>
+    </listeners>
+
     <test name="Regression Test">
 
         <classes>
