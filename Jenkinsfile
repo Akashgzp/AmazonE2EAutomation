@@ -22,8 +22,9 @@ pipeline {
 
         stage('Test') {
     steps {
-        bat 'mvn clean test -Psmoke'
+        bat "mvn clean test -P${params.SUITE}"
     }
+}
 }
     }
 
