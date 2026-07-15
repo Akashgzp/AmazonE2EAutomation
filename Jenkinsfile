@@ -1,31 +1,36 @@
 pipeline {
-
     agent any
+
+    tools {
+        jdk 'JDK17'
+        maven 'Maven3'
+    }
 
     stages {
 
         stage('Checkout') {
-
             steps {
-                echo 'Source code is already checked out by Jenkins'
+                checkout scm
             }
-
         }
 
-        stage('Build & Test') {
-
+        stage('Clean') {
             steps {
-                bat 'mvn clean test -Pregression'
+                bat 'mvn clean'
             }
-
         }
 
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
     }
 
     post {
 
         always {
-            echo 'Pipeline Finished'
+            junit '**/surefire-reports/*.xml'
         }
 
         success {
@@ -35,7 +40,5 @@ pipeline {
         failure {
             echo 'Build Failed'
         }
-
     }
-
 }
