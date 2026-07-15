@@ -13,5 +13,6 @@ public class HomePageTest extends BaseTest{
 		 // Step 1 : Home Page
         HomePage home = new HomePage(driver);
         home.clickSignIn();
+        System.out.println("Poll SCM Test");
 	}
 }
