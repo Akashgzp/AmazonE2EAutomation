@@ -21,10 +21,10 @@ pipeline {
         }
 
         stage('Test') {
-            steps {
-                bat 'mvn test'
-            }
-        }
+    steps {
+        bat 'mvn clean test -Psmoke'
+    }
+}
     }
 
     post {
