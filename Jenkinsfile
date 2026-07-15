@@ -28,18 +28,28 @@ pipeline {
 
     }
 
-    post {
+  post {
 
-        always {
-            junit '**/surefire-reports/*.xml'
-        }
+    always {
 
-        success {
-            echo 'Build Successful'
-        }
+        junit '**/surefire-reports/*.xml'
 
-        failure {
-            echo 'Build Failed'
-        }
+        publishHTML(target: [
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: 'reports',
+            reportFiles: 'ExtentReport.html',
+            reportName: 'Extent Report'
+        ])
     }
+
+    success {
+        echo 'Build Successful'
+    }
+
+    failure {
+        echo 'Build Failed'
+    }
+ }
 }
