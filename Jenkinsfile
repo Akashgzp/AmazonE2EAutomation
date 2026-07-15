@@ -21,11 +21,11 @@ pipeline {
         }
 
         stage('Test') {
-    steps {
-        bat "mvn clean test -P${params.SUITE}"
-    }
-}
-}
+            steps {
+                bat "mvn clean test -P${params.SUITE}"
+            }
+        }
+
     }
 
     post {
