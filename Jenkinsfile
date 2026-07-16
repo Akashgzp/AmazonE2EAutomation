@@ -41,6 +41,10 @@ pipeline {
             reportFiles: 'AutomationReport.html',
             reportName: 'Extent Report'
         ])
+        
+         archiveArtifacts artifacts: 'reports/**', fingerprint: true
+
+    archiveArtifacts artifacts: 'Screenshots/**', fingerprint: true
     }
 
     success {
