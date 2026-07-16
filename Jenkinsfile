@@ -20,11 +20,30 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Parallel Test') {
+
+    parallel {
+
+        stage('Smoke Test') {
             steps {
-                bat "mvn clean test -P${params.SUITE}"
+                bat 'mvn clean test -Psmoke'
             }
         }
+
+        stage('Sanity Test') {
+            steps {
+                bat 'mvn clean test -Psanity'
+            }
+        }
+
+        stage('Regression Test') {
+            steps {
+                bat 'mvn clean test -Pregression'
+            }
+        }
+
+    }
+}
 
     }
 
