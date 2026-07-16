@@ -70,5 +70,5 @@ URL: ${env.BUILD_URL}
             to: 'your-email@gmail.com'
         )
     }
- }
+  }
 }
