@@ -11,7 +11,6 @@ public class BaseTest {
     protected WebDriver driver;
 
     @BeforeMethod
-
     public void setup() {
 
         DriverFactory.initDriver();
@@ -20,6 +19,8 @@ public class BaseTest {
 
         driver.get("https://www.amazon.in/");
 
+        System.out.println("URL : " + driver.getCurrentUrl());
+        System.out.println("TITLE : " + driver.getTitle());
     }
 
     @AfterMethod

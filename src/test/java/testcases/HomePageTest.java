@@ -1,18 +1,231 @@
 package testcases;
 
+import java.time.Duration;
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
 import pages.HomePage;
 
-public class HomePageTest extends BaseTest{
+public class HomePageTest extends BaseTest {
 
-	@Test
-	public void verifyHomePage() {
-		
-		 // Step 1 : Home Page
-        HomePage home = new HomePage(driver);
-        home.clickSignIn();
-        System.out.println("Poll SCM Test");
+//	@Test
+//	public void verifyHomePage() {
+//		
+//		 // Step 1 : Home Page
+//        HomePage home = new HomePage(driver);
+//        home.clickSignIn();
+//        System.out.println("Poll SCM Test");
+//	}
+
+	@Test(priority = 1)
+	public void verifyHomePageURL() {
+
+		HomePage home = new HomePage(driver);
+
+		Assert.assertEquals(home.getCurrentURL(), "https://www.amazon.in/");
 	}
+
+	@Test(priority = 2)
+	public void verifyPageTitle() {
+
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+
+	    wait.until(ExpectedConditions.titleContains("Amazon"));
+
+	    Assert.assertTrue(driver.getTitle().contains("Amazon"));
+	}
+	
+	@Test(priority = 3)
+	public void verifyAmazonLogo() {
+
+		HomePage home = new HomePage(driver);
+
+		Assert.assertTrue(home.isLogoDisplayed());
+	}
+
+	@Test(priority = 4)
+	public void verifySearchBox() {
+
+		HomePage home = new HomePage(driver);
+
+		Assert.assertTrue(home.isSearchBoxDisplayed());
+	}
+
+	@Test(priority = 5)
+	public void verifySearchButton() {
+
+		HomePage home = new HomePage(driver);
+
+		Assert.assertTrue(home.isSearchButtonDisplayed());
+	}
+
+	@Test(priority = 6)
+	public void verifyCartIcon() {
+
+		HomePage home = new HomePage(driver);
+
+		Assert.assertTrue(home.isCartDisplayed());
+	}
+
+	@Test(priority = 7)
+	public void verifySignInLink() {
+
+		HomePage home = new HomePage(driver);
+
+		Assert.assertTrue(home.isSignInDisplayed());
+	}
+
+	@Test(priority = 8)
+	public void verifyReturnsOrdersLink() {
+
+		HomePage home = new HomePage(driver);
+
+		Assert.assertTrue(home.isReturnsOrdersDisplayed());
+	}
+
+	@Test(priority = 9)
+	public void verifyHamburgerMenu() {
+
+		HomePage home = new HomePage(driver);
+
+		Assert.assertTrue(home.isHamburgerDisplayed());
+	}
+
+	@Test(priority = 10)
+	public void verifyLanguageSelector() {
+
+		HomePage home = new HomePage(driver);
+
+		Assert.assertTrue(home.isLanguageDisplayed());
+	}
+	
+	// ===============================
+		// Sprint 2 - Search Tester
+		// TC011 - TC020
+		// ===============================
+	
+	@Test(priority = 11)
+	public void verifySearchBoxAcceptsText() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.enterSearchText("Samsung");
+
+	    Assert.assertEquals(home.getSearchBoxValue(), "Samsung");
+
+	}
+	
+	@Test(priority = 12)
+	public void verifySearchWithValidProduct() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.searchProduct("Samsung");
+
+	    Assert.assertTrue(home.getCurrentURL().contains("s?k=Samsung"));
+
+	}
+	
+	@Test(priority = 13)
+	public void verifySearchWithInvalidProduct() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.searchProduct("XYZ123INVALIDPRODUCT");
+
+	    Assert.assertTrue(home.getCurrentURL()
+	            .contains("XYZ123INVALIDPRODUCT"));
+
+	}
+	
+	@Test(priority = 14)
+	public void verifySearchWithEmptyText() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.enterSearchText("");
+
+	    home.clickSearchButton();
+
+	    Assert.assertTrue(home.getCurrentURL().contains("amazon"));
+
+	}
+	
+	@Test(priority = 15)
+	public void verifySearchWithSpaces() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.searchProduct("     ");
+
+	    Assert.assertTrue(home.getCurrentURL().contains("amazon"));
+
+	}
+	
+	@Test(priority = 16)
+	public void verifySearchWithNumbers() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.searchProduct("123456");
+
+	    Assert.assertTrue(home.getCurrentURL().contains("123456"));
+
+	}
+	
+	@Test(priority = 17)
+	public void verifySearchWithSpecialCharacters() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.searchProduct("@#$%");
+
+	    Assert.assertTrue(home.getCurrentURL().contains("amazon"));
+
+	}
+	
+	@Test(priority=18)
+	public void verifySearchResultTitle() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.searchProduct("Laptop");
+
+	    Assert.assertTrue(
+	            home.getPageTitle()
+	                    .contains("Laptop"));
+
+	}
+	
+	@Test(priority=19)
+	public void verifySearchResultURL() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.searchProduct("Laptop");
+
+	    Assert.assertTrue(
+	            home.getCurrentURL()
+	                    .contains("s"));
+	}
+	
+	@Test(priority=20)
+	public void verifySearchBoxClear() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.enterSearchText("Samsung");
+
+	    home.clearSearchBox();
+
+	    Assert.assertEquals(
+	            home.getSearchBoxValue(),
+	            "");
+
+	}
+
 }

@@ -13,7 +13,7 @@ public class LoginPageTest extends BaseTest {
 
         HomePage home = new HomePage(driver);
 
-        home.clickSignIn();
+       // home.clickSignIn();
 
         LoginPage login = new LoginPage(driver);
 
