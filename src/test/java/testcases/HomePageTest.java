@@ -227,5 +227,50 @@ public class HomePageTest extends BaseTest {
 	            "");
 
 	}
+	
+	
+	// ===============================
+	// Sprint 2 - Search Tester
+	// TC021 - TC030
+    // ===============================
+	
+	@Test(priority = 21)
+	public void verifyLogoClick() {
 
+	    HomePage home = new HomePage(driver);
+
+	    home.clickLogo();
+
+	    Assert.assertTrue(driver.getCurrentUrl().contains("amazon.in"));
+	}
+	
+	@Test(priority = 22)
+	public void verifyCartClick() {
+		
+		HomePage home = new HomePage(driver);
+		
+		home.clickCart();
+		
+		Assert.assertTrue(driver.getCurrentUrl().contains("/cart"));
+	}
+	
+	@Test(priority = 23)
+	public void verifySignInClick() {
+		
+		HomePage home = new HomePage(driver);
+		
+		home.clickSignIn();
+		
+		Assert.assertTrue(driver.getCurrentUrl().contains("signin"));
+	}
+
+	@Test(priority = 24)
+	public void verifyReturnsOrdersClick() {
+		
+		HomePage home = new HomePage(driver);
+		
+		home.clickReturnsOrders();
+		
+		Assert.assertTrue(driver.getCurrentUrl().contains("signin"));
+	}
 }
