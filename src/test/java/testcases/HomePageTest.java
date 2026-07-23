@@ -2,6 +2,8 @@ package testcases;
 
 import java.time.Duration;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -272,5 +274,39 @@ public class HomePageTest extends BaseTest {
 		home.clickReturnsOrders();
 		
 		Assert.assertTrue(driver.getCurrentUrl().contains("signin"));
+	}
+	
+	@Test(priority = 25)
+	public void verifyHamburgerMenuClick() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.clickHamburgerMenu();
+
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+	    WebElement menu = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("hmenu-content")));
+
+	    Assert.assertTrue(menu.isDisplayed());
+	}
+	
+	@Test(priority = 26)
+	public void verifyLanguageSelectorClick() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.clickLanguageSelector();
+
+	    Assert.assertTrue(driver.getPageSource().contains("English"));
+	}
+	
+	@Test(priority = 27)
+	public void verifyDeliveryLocationClick() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.clickDeliveryLocation();
+
+	    Assert.assertTrue(driver.getPageSource().contains("Choose your location"));
 	}
 }
