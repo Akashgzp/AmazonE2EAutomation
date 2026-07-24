@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import base.BasePage;
 import base.BaseTest;
 import pages.HomePage;
 
@@ -308,5 +309,35 @@ public class HomePageTest extends BaseTest {
 	    home.clickDeliveryLocation();
 
 	    Assert.assertTrue(driver.getPageSource().contains("Choose your location"));
+	}
+	
+	@Test(priority = 28)
+	public void verifyTodaysDealsClick() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.clickTodaysDeals();
+
+	    Assert.assertTrue(driver.getCurrentUrl().contains("/deals"));
+	}
+	
+	@Test(priority = 29)
+	public void verifyCustomerServiceClick() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.clickCustomerService();
+
+	    Assert.assertTrue(driver.getTitle().contains("Customer Service"));
+	}
+	
+	@Test(priority = 30)
+	public void verifyGiftCardsClick() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.clickGiftCards();
+
+	    Assert.assertTrue(driver.getTitle().contains("Gift Cards"));
 	}
 }

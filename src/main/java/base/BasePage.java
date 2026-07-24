@@ -78,5 +78,47 @@ public class BasePage {
 
         return driver.getCurrentUrl();
     }
+    
+    // Wait for Clickable Locator
+    public WebElement waitForClickable(By locator) {
+
+        return wait.until(
+                ExpectedConditions.elementToBeClickable(locator));
+    }
+    
+    // Wait for Visible Locator
+    public WebElement waitForVisibility(By locator) {
+
+        return wait.until(
+                ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+    
+    // Wait for Title
+    public void waitForTitleContains(String title) {
+
+        wait.until(
+                ExpectedConditions.titleContains(title));
+    }
+    
+    // Wait for URL
+    public void waitForURLContains(String url) {
+
+        wait.until(
+                ExpectedConditions.urlContains(url));
+    }
+    
+    // Wait for Invisibility (Useful for Loaders)
+    public void waitForInvisibility(By locator) {
+
+        wait.until(
+                ExpectedConditions.invisibilityOfElementLocated(locator));
+    }
+    
+    // Wait for Alert
+    public void waitForAlert() {
+
+        wait.until(
+                ExpectedConditions.alertIsPresent());
+    }
 
 }
