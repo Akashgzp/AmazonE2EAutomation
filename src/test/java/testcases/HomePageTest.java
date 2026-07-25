@@ -3,6 +3,7 @@ package testcases;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -339,5 +340,45 @@ public class HomePageTest extends BaseTest {
 	    home.clickGiftCards();
 
 	    Assert.assertTrue(driver.getTitle().contains("Gift Cards"));
+	}
+	
+	// ===============================
+		// Sprint 2 - footer Tester
+		// TC021 - TC030
+	    // ===============================
+	
+	@Test(priority = 31)
+	public void verifyFooterDisplayed() {
+
+	    HomePage home = new HomePage(driver);
+
+	    Assert.assertTrue(home.isFooterDisplayed());
+
+	}
+	
+	@Test(priority = 32)
+	public void verifyBackToTop() {
+
+	    HomePage home = new HomePage(driver);
+
+	    JavascriptExecutor js = (JavascriptExecutor) driver;
+
+	    js.executeScript("window.scrollTo(0,document.body.scrollHeight)");
+
+	    home.clickBackToTop();
+
+	    Assert.assertTrue(driver.getCurrentUrl().contains("amazon"));
+
+	}
+	
+	@Test(priority = 33)
+	public void verifyAboutAmazonLink() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.clickAboutAmazon();
+
+	    Assert.assertTrue(driver.getTitle().contains("About"));
+
 	}
 }

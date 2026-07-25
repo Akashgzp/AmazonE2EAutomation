@@ -251,4 +251,39 @@ public class HomePage extends BasePage {
 	public void clickGiftCards() {
 	    driver.findElement(giftCards).click();
 	}
+	
+	// ===============================
+		// Sprint 2 - footer section
+		// TC030 - TC040
+		// ===============================
+	
+	//locators
+	
+	private By footer = By.xpath("//div[@id='navFooter']");
+	
+	private By backToTop = By.id("navBackToTop");
+	
+	private By aboutAmazon = By.linkText("About Amazon");
+	
+	//methods
+	//footer
+	public boolean isFooterDisplayed() {
+
+	    return driver.findElement(footer).isDisplayed();
+
+	}
+	
+	// BackToTop
+	public void clickBackToTop() {
+
+    driver.findElement(backToTop).click();
+
+    }
+	
+	// AboutAmazon
+	public void clickAboutAmazon() {
+
+	    driver.findElement(aboutAmazon).click();
+
+	}
 }
