@@ -381,4 +381,38 @@ public class HomePageTest extends BaseTest {
 	    Assert.assertTrue(driver.getTitle().contains("About"));
 
 	}
+	
+	@Test(priority = 34)
+	public void verifyCareersLink() {
+		
+		HomePage home = new HomePage(driver);
+		
+		home.clickCareers();
+//		System.out.println("Title: " +  driver.getTitle());
+//		System.out.println("Url: " +  driver.getCurrentUrl());
+		
+		Assert.assertTrue(driver.getCurrentUrl().contains("https://amazon.jobs/en/"));
+	}
+	
+	@Test(priority = 35)
+	public void verifyPressReleasesLink() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.clickPressReleases();
+
+	    Assert.assertTrue(driver.getTitle().contains("Press"));
+
+	}
+	
+	
+	@Test(priority = 36)
+	public void verifyAccessiblilityLink() {
+		
+		HomePage home = new HomePage(driver);
+		
+		home.clickAccessibility();
+		
+//		Assert.assertTrue(driver.getTitle().contains("accessibility"));
+	}
 }

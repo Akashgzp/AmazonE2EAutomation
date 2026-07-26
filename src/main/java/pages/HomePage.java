@@ -265,6 +265,12 @@ public class HomePage extends BasePage {
 	
 	private By aboutAmazon = By.linkText("About Amazon");
 	
+	private By careers = By.linkText("Careers");
+	
+	private By pressReleases = By.linkText("Press Releases");
+	
+	private By accessibility = By.xpath("//a[@class='nav_a'][normalize-space()='Help']");
+	
 	//methods
 	//footer
 	public boolean isFooterDisplayed() {
@@ -285,5 +291,23 @@ public class HomePage extends BasePage {
 
 	    driver.findElement(aboutAmazon).click();
 
+	}
+	
+	//Careers
+	public void clickCareers() {
+		
+		driver.findElement(careers).click();
+	}
+	
+	// PressReleases
+	public void clickPressReleases() {
+		
+		driver.findElement(pressReleases).click();
+	}
+	
+	// Accessibility
+	public void clickAccessibility() {
+		
+		driver.findElement(accessibility).click();
 	}
 }
