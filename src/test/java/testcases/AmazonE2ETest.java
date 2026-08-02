@@ -25,7 +25,7 @@ public class AmazonE2ETest extends BaseTest {
 //	    login.clickSignIn();
 
 	    SearchPage search = new SearchPage(driver);
-	    search.searchProduct("Samsung");
+//	    search.searchProduct("Samsung");
 
 	    // Open First Product
         ProductPage product = new ProductPage(driver);

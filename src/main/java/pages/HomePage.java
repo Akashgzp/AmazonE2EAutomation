@@ -271,6 +271,14 @@ public class HomePage extends BasePage {
 	
 	private By accessibility = By.xpath("//a[@class='nav_a'][normalize-space()='Help']");
 	
+	private By conditionsOfUse = By.linkText("Conditions of Use & Sale");
+
+	private By privacyNotice = By.linkText("Privacy Notice");
+
+	private By helpLink = By.partialLinkText("Help");
+
+	private By footerLogo = By.cssSelector(".nav-logo-base");
+	
 	//methods
 	//footer
 	public boolean isFooterDisplayed() {
@@ -310,4 +318,34 @@ public class HomePage extends BasePage {
 		
 		driver.findElement(accessibility).click();
 	}
+	
+	// ConditionsOfUse
+	public void clickConditionsOfUse() {
+
+	    driver.findElement(conditionsOfUse).click();
+
+	}
+	
+	// PrivacyNotice
+	public void clickPrivacyNotice() {
+
+	    driver.findElement(privacyNotice).click();
+
+	}
+	
+	// Help
+	public void clickHelp() {
+
+	    driver.findElement(helpLink).click();
+
+	}
+	
+	// FooterLogoDisplayed
+	public boolean isFooterLogoDisplayed() {
+
+	    return driver.findElement(footerLogo).isDisplayed();
+
+	}
+	
+	
 }

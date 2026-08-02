@@ -27,7 +27,7 @@ public class ProductPageTest extends BaseTest {
 	        
 		    //  Search Product
          SearchPage search = new SearchPage(driver);
-         search.searchProduct("Samsung Mobile");
+  //       search.searchProduct("Samsung Mobile");
 
         // Open First Product
         ProductPage product = new ProductPage(driver);

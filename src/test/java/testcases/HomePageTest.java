@@ -415,4 +415,44 @@ public class HomePageTest extends BaseTest {
 		
 //		Assert.assertTrue(driver.getTitle().contains("accessibility"));
 	}
+	
+	@Test(priority = 37)
+	public void verifyConditionsOfUseLink() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.clickConditionsOfUse();
+
+	    Assert.assertTrue(driver.getTitle().contains("Conditions"));
+
+	}
+	
+	@Test(priority = 38)
+	public void verifyPrivacyNoticeLink() {
+
+	    HomePage home = new HomePage(driver);
+
+	    home.clickPrivacyNotice();
+
+	    Assert.assertTrue(driver.getTitle().contains("Privacy"));
+
+	}
+	
+	@Test(priority = 39)
+	public void verifyHelpLink() {
+		
+		HomePage home = new HomePage(driver);
+		
+		home.clickHelp();
+		
+		Assert.assertTrue(driver.getCurrentUrl().contains("help"));
+	}
+	
+	@Test(priority = 40)
+	public void verifyFooterLogo() {
+		
+		HomePage home = new HomePage(driver);
+		
+		Assert.assertTrue(home.isFooterLogoDisplayed());
+	}
 }
