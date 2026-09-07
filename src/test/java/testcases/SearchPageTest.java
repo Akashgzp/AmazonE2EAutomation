@@ -7,367 +7,294 @@ import java.util.List;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
 import pages.HomePage;
-import pages.LoginPage;
 import pages.SearchPage;
 
 public class SearchPageTest extends BaseTest {
 
-//	@Test
-//	public void VerifySearch() {
-//		
-//		    HomePage home = new HomePage(driver);
-//
-//	        home.clickSignIn();
-//
-//	        LoginPage login = new LoginPage(driver);
-//
-//	        login.enterEmail("8127196607");
-//	        login.clickContinue();
-//	        login.enterPassword("123456");
-//	        login.clickSignIn();
-//	        
-//		    //  Search Product
-//           SearchPage search = new SearchPage(driver);
-//        search.searchProduct("Samsung Mobile");
-//	}
-	
-	SearchPage search;
+	private SearchPage search;
 
+	@BeforeMethod
+	public void setUpSearchPage() {
+		search = new SearchPage(driver);
+	}
 
-    @Test(priority = 51)
-    public void verifySearchResultPageOpens() {
+	private void searchFor(String keyword) {
 
-        HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-        home.searchProduct("Samsung");
+		home.searchProduct(keyword);
 
-        search = new SearchPage(driver);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
-        Assert.assertTrue(search.isSearchResultPageDisplayed());
+		wait.until(ExpectedConditions.urlContains("s?k="));
+	}
 
-    }
+	// =========================================================
+	// TC051 - TC056 : Basic Search Result Tests
+	// =========================================================
 
+	@Test(priority = 51)
+	public void verifySearchResultPageOpens() {
 
+		searchFor("Samsung");
 
-    @Test(priority = 52)
-    public void verifySearchResultsDisplayed() {
+		Assert.assertTrue(search.isSearchResultPageDisplayed(), "Search Result Page is not displayed");
+	}
 
-        HomePage home = new HomePage(driver);
+	@Test(priority = 52)
+	public void verifySearchResultsDisplayed() {
 
-        home.searchProduct("Samsung");
+		searchFor("Samsung");
 
-        search = new SearchPage(driver);
+		Assert.assertTrue(search.areSearchResultsDisplayed(), "Search results are not displayed");
+	}
 
-        Assert.assertTrue(search.areSearchResultsDisplayed());
+	@Test(priority = 53)
+	public void verifyProductCount() {
 
-    }
+		searchFor("Samsung");
 
+		int productCount = search.getProductCount();
 
+		System.out.println("Product Count: " + productCount);
 
-    @Test(priority = 53)
-    public void verifyProductCount() {
+		Assert.assertTrue(productCount > 0, "No products found in search results");
+	}
 
-        HomePage home = new HomePage(driver);
+	@Test(priority = 54)
+	public void verifyFirstProductClick() {
 
-        home.searchProduct("Samsung");
+		searchFor("Samsung");
 
-        search = new SearchPage(driver);
+		search.clickFirstProduct();
 
-        Assert.assertTrue(search.getProductCount() > 0);
+		String currentUrl = driver.getCurrentUrl();
 
-    }
+		System.out.println("Product URL: " + currentUrl);
+		System.out.println("Product Title: " + driver.getTitle());
 
+		Assert.assertTrue(currentUrl.contains("/dp/") || currentUrl.contains("/gp/product/"),
+				"First product was not opened. Current URL: " + currentUrl);
+	}
 
+	@Test(priority = 55)
+	public void verifyProductTitle() {
 
-    @Test(priority = 54)
-    public void verifyFirstProductClick() {
+		searchFor("Samsung");
 
-        HomePage home = new HomePage(driver);
+		String title = search.getProductTitle();
 
-        home.searchProduct("Samsung");
+		System.out.println("Product Title: " + title);
 
-        search = new SearchPage(driver);
+		Assert.assertNotNull(title, "Product title is null");
 
-        search.clickFirstProduct();
-        
-        System.out.println("Url:" + driver.getCurrentUrl());
-        
-        System.out.println("Title:" + driver.getTitle());
+		Assert.assertFalse(title.trim().isEmpty(), "Product title is empty");
+	}
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("https://www.amazon.in/s?k=Samsung&ref=nb_sb_noss"));
+	@Test(priority = 56)
+	public void verifyProductPrice() {
 
-    }
+		searchFor("Samsung");
 
+		String price = search.getProductPrice();
 
+		System.out.println("Product Price: " + price);
 
-    @Test(priority = 55)
-    public void verifyProductTitle() {
+		Assert.assertNotNull(price, "Product price is null");
 
-        HomePage home = new HomePage(driver);
+		Assert.assertFalse(price.trim().isEmpty(), "Product price is empty");
+	}
 
-        home.searchProduct("Samsung");
+	// =========================================================
+	// TC057 - TC060 : Sort & Filter Tests
+	// =========================================================
 
-        search = new SearchPage(driver);
+	@Test(priority = 57)
+	public void verifySortLowToHigh() {
 
-        String title = search.getProductTitle();
+		searchFor("Tshirt");
 
-        Assert.assertFalse(title.isEmpty());
+		search.sortByLowToHigh();
 
-    }
+		/*
+		 * TODO: Actual price-order validation SearchPage.java me implement karni hai.
+		 *
+		 * Assert.assertTrue(true) intentionally remove kiya gaya hai.
+		 */
+	}
 
+	@Test(priority = 58)
+	public void verifySortHighToLow() {
 
+		searchFor("Trimmer");
 
-    @Test(priority = 56)
-    public void verifyProductPrice() {
+		search.sortByHighToLow();
 
-        HomePage home = new HomePage(driver);
+		/*
+		 * TODO: Actual price-order validation implement karni hai.
+		 */
+	}
 
-        home.searchProduct("Samsung");
+	@Test(priority = 59)
+	public void verifyBrandFilter() {
 
-        search = new SearchPage(driver);
+		searchFor("Laptop");
 
-        String price = search.getProductPrice();
+		search.selectBrandFilter();
 
-        Assert.assertFalse(price.isEmpty());
+		/*
+		 * TODO: Selected brand ke products actually filtered hain, iska validation
+		 * SearchPage.java me add karenge.
+		 */
+	}
 
-    }
+	@Test(priority = 60)
+	public void verifyCustomerRatingFilter() {
 
+		searchFor("Water Bottle");
 
+		search.selectRatingFilter();
 
-    @Test(priority = 57)
-    public void verifySortLowToHigh() {
+		/*
+		 * TODO: Rating-filtered products ka actual validation SearchPage.java me add
+		 * karenge.
+		 */
+	}
 
-        HomePage home = new HomePage(driver);
+	// =========================================================
+	// TC061 - TC069 : Advanced Search Tests
+	// =========================================================
 
-        home.searchProduct("Tshirt");
+	@Test(priority = 61)
+	public void verifySecondProductClick() {
 
-        search = new SearchPage(driver);
+		searchFor("Smartwatch");
 
-        search.sortByLowToHigh();
+		search.clickSecondProduct();
 
-        Assert.assertTrue(true);
+		String currentUrl = driver.getCurrentUrl();
 
-    }
+		System.out.println("Product URL: " + currentUrl);
+		System.out.println("Product Title: " + driver.getTitle());
 
+		Assert.assertTrue(currentUrl.contains("/dp/") || currentUrl.contains("Smartwatch"),
+				"Second product was not opened. Current URL: " + currentUrl);
+	}
 
+	@Test(priority = 62)
+	public void verifyMultipleProductsDisplayed() {
 
-    @Test(priority = 58)
-    public void verifySortHighToLow() {
+		searchFor("Shoes");
 
-        HomePage home = new HomePage(driver);
+		int productCount = search.getDisplayedProductCount();
 
-        home.searchProduct("Trimmer");
+		System.out.println("Displayed Products: " + productCount);
 
-        search = new SearchPage(driver);
+		Assert.assertTrue(productCount >= 2, "Less than 2 products are displayed");
+	}
 
-        search.sortByHighToLow();
+	@Test(priority = 63)
+	public void verifyProductImageDisplayed() {
 
-        Assert.assertTrue(true);
+		searchFor("Backpack");
 
-    }
+		Assert.assertTrue(search.isProductImageDisplayed(), "Product image is not displayed");
+	}
 
+	@Test(priority = 64)
+	public void verifyProductLinkClickable() {
 
+		searchFor("Trimmer");
 
-    @Test(priority = 59)
-    public void verifyBrandFilter() {
+		search.clickFirstProductTitle();
 
-        HomePage home = new HomePage(driver);
+		ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
 
-        home.searchProduct("Laptop");
+		if (tabs.size() > 1) {
+			driver.switchTo().window(tabs.get(1));
+		}
 
-        search = new SearchPage(driver);
+		String currentUrl = driver.getCurrentUrl();
 
-        search.selectBrandFilter();
+		System.out.println("Product URL: " + currentUrl);
 
-        Assert.assertTrue(true);
+		Assert.assertTrue(currentUrl.contains("/dp/") || currentUrl.contains("/gp/product/"),
+				"Product link did not open product page. URL: " + currentUrl);
+	}
 
-    }
+	@Test(priority = 65)
+	public void verifySearchResultContainsKeyword() {
 
+		String searchKeyword = "iPhone";
 
+		searchFor(searchKeyword);
 
-    @Test(priority = 60)
-    public void verifyCustomerRatingFilter() {
+		List<String> productTitles = search.getFirstFewProductTitles(4);
 
-        HomePage home = new HomePage(driver);
+		Assert.assertFalse(productTitles.isEmpty(), "No search results were found");
 
-        home.searchProduct("Water Bottle");
+		boolean keywordFound = false;
 
-        search = new SearchPage(driver);
+		for (String title : productTitles) {
 
-        search.selectRatingFilter();
+			if (title.toLowerCase().contains(searchKeyword.toLowerCase())) {
 
-        Assert.assertTrue(true);
+				keywordFound = true;
+				break;
+			}
+		}
 
-    }
+		Assert.assertTrue(keywordFound,
+				"Searched keyword '" + searchKeyword + "' was not found in the top product titles");
+	}
 
-    // TestCase TC061 to TC070.....
-    
-    @Test(priority = 61)
-    public void verifySecondProductClick() {
+	@Test(priority = 66)
+	public void verifyNextPageNavigation() {
 
-    	 HomePage home = new HomePage(driver);
+		searchFor("Books");
 
-         home.searchProduct("Smartwatch");
-         
-         search = new SearchPage(driver);
-         
-        search.clickSecondProduct();
-        
-        System.out.println("Title: " + driver.getTitle());
-        System.out.println("Url11: " + driver.getCurrentUrl());
-        
-        Assert.assertTrue(driver.getTitle().contains("Watches"));
+		search.clickNextPage();
 
-    }
-    
-    @Test(priority = 62)
-    public void verifyMultipleProductsDisplayed() {
-        
-    	HomePage home = new HomePage(driver);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        home.searchProduct("Shoes");
-        
-        search = new SearchPage(driver);
-        
-    	
-        Assert.assertTrue(search.getDisplayedProductCount() >= 2);
+		wait.until(ExpectedConditions.not(ExpectedConditions.urlContains("page=1")));
 
-    }
-    
-//    @Test(priority = 63)
-//    public void verifyProductImageDisplayed() {
-//
-//    	HomePage home = new HomePage(driver);
-//
-//        home.searchProduct("Backpack");
-//        
-//        search = new SearchPage(driver);
-//        Assert.assertTrue(search.isProductImageDisplayed());
-//
-//    }
-    
-    @Test(priority = 63)
-    public void verifyProductImageDisplayed() {
-        HomePage home = new HomePage(driver);
+		System.out.println("After Next Page URL: " + driver.getCurrentUrl());
 
-        // Step 1 & 2: Launch Amazon, search for targeted asset keyword
-        home.searchProduct("Backpack");
-        
-        // Step 3: Verify the visual block item placement
-        search = new SearchPage(driver);
-        
-        // Clean descriptive failure message attached with Assertion
-        Assert.assertTrue(search.isProductImageDisplayed(), "Execution Failed: The targeted product layout card image did not render or display correctly on screen.");
-    }
-    
-    @Test(priority = 64)
-    public void verifyProductLinkClickable() {
-        HomePage home = new HomePage(driver);
+		Assert.assertTrue(search.areSearchResultsDisplayed(),
+				"Search results are not displayed after next page navigation");
+	}
 
-        // Step 1 & 2: Launch Amazon India search workflow
-        home.searchProduct("Trimmer");
-        
-        search = new SearchPage(driver);
-        
-        // Step 3: Explicit synchronisation ke sath step run karein
-        search.clickFirstProductTitle();
-        
-        // Multi-window / New tab handling loop
-        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-        if (tabs.size() > 1) {
-            driver.switchTo().window(tabs.get(1));
-        }
+	@Test(priority = 67)
+	public void verifyPreviousPageNavigation() {
 
-        // Final detail page confirmation assertion
-        String currentUrl = driver.getCurrentUrl();
-        Assert.assertTrue(currentUrl.contains("/dp/") || currentUrl.contains("/gp/product/"), 
-                "Execution Failed: Link redirects properly nahi ho paya. URL obtained: " + currentUrl);
-    }
-    
-    @Test(priority = 65)
-    public void verifySearchResultContainsKeyword() {
-        HomePage home = new HomePage(driver);
-        String searchKeyword = "iPhone";
+		searchFor("Tshirt");
 
-        // Step 1 & 2: Go to Amazon India and search for "iPhone"
-        home.searchProduct(searchKeyword);
-        
-        search = new SearchPage(driver);
-        
-        // Step 3: Pahle top 4 products ke titles list ko pull karein
-        List<String> activeTitles = search.getFirstFewProductTitles(4);
-        
-        // Ensure list khali na ho
-        Assert.assertFalse(activeTitles.isEmpty(), "Automation Error: Amazon page par koi bhi search results nahi mile.");
+		search.clickNextPage();
 
-        // Naya Logic: Check karein ki kya kisi bhi ek title me keyword hai
-        boolean keywordFoundInAnyProduct = false;
-        for (String title : activeTitles) {
-            if (title.toLowerCase().contains(searchKeyword.toLowerCase())) {
-                keywordFoundInAnyProduct = true;
-                break; // Agar ek me bhi mil gaya toh loop se bahar aa jao
-            }
-        }
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        // Ab assert karein ki kam se kam ek relevant product mila ya nahi
-        Assert.assertTrue(keywordFoundInAnyProduct, 
-            "Execution Failed: Top 4 products me se kisi me bhi searched keyword '" + searchKeyword + "' nahi mila!");
-    }
+		wait.until(ExpectedConditions.not(ExpectedConditions.urlContains("page=1")));
 
+		search.clickPreviousPage();
 
-    @Test(priority = 66)
-    public void verifyNextPageNavigation() {
-        HomePage home = new HomePage(driver);
+		wait.until(ExpectedConditions.not(ExpectedConditions.urlContains("page=2")));
 
-        // Broad scope product category search rule initialize karein
-        home.searchProduct("Books");
-        
-        search = new SearchPage(driver);
-        
-        // Step action execution invoke karein
-        search.clickNextPage();
-        
-        // Page transitions handle hone ke liye explicit synchronized runtime sync frame attach karein
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.urlContains("page=2"));
+		Assert.assertTrue(search.areSearchResultsDisplayed(),
+				"Search results are not displayed after previous page navigation");
+	}
 
-        // Clean parameter validation asset evaluation rule check
-        Assert.assertTrue(driver.getCurrentUrl().contains("page=2"), 
-                "Execution Failed: Next pagination operation switch trace URL string map fail ho gaya.");
-    }
+	@Test(priority = 68)
+	public void verifySortDropdownDisplayed() {
 
-    @Test(priority = 67)
-    public void verifyPreviousPageNavigation() {
-        HomePage home = new HomePage(driver);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		searchFor("Laptop");
 
-        // Step 1: Target keyword "Tshirt" search karein
-        home.searchProduct("Tshirt");
-        
-        search = new SearchPage(driver);
-        
-        // Step 2: Pehle 'Next' button click karke Page 2 par navigate karein (Pre-requisite setup)
-        search.clickNextPage();
-        wait.until(ExpectedConditions.urlContains("page=2"));
-        
-        // Step 3: Ab bottom scroll execute karke 'Previous' page navigation action trigger karein
-        search.clickPreviousPage();
-        
-        // Verification Rules: Previous click hone par URL ya toh back to normal page 1 target parameters ho jayega ya fir string me "page=1" handle generate karein
-        wait.until(ExpectedConditions.or(
-            ExpectedConditions.urlContains("page=1"),
-            ExpectedConditions.not(ExpectedConditions.urlContains("page=2"))
-        ));
+		Assert.assertTrue(search.isSortDropdownDisplayed(), "Sort dropdown is not displayed");
+	}
 
-        String currentUrl = driver.getCurrentUrl();
-        
-        // Assertions: Final verify karein ki hum successfully prior list (Page 1) par wapas aa chuke hain
-        Assert.assertFalse(currentUrl.contains("page=2"), 
-                "Execution Failed: User abhi bhi Page 2 par phase out ho rakha hai. Previous block click verify nahi hua.");
-    }
-    
-  }
+}

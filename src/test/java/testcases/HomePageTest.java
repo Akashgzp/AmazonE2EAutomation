@@ -36,13 +36,13 @@ public class HomePageTest extends BaseTest {
 	@Test(priority = 2)
 	public void verifyPageTitle() {
 
-	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
-	    wait.until(ExpectedConditions.titleContains("Amazon"));
+		wait.until(ExpectedConditions.titleContains("Amazon"));
 
-	    Assert.assertTrue(driver.getTitle().contains("Amazon"));
+		Assert.assertTrue(driver.getTitle().contains("Amazon"));
 	}
-	
+
 	@Test(priority = 3)
 	public void verifyAmazonLogo() {
 
@@ -106,353 +106,344 @@ public class HomePageTest extends BaseTest {
 
 		Assert.assertTrue(home.isLanguageDisplayed());
 	}
-	
+
 	// ===============================
-		// Sprint 2 - Search Tester
-		// TC011 - TC020
-		// ===============================
-	
+	// Sprint 2 - Search Tester
+	// TC011 - TC020
+	// ===============================
+
 	@Test(priority = 11)
 	public void verifySearchBoxAcceptsText() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.enterSearchText("Samsung");
+		home.enterSearchText("Samsung");
 
-	    Assert.assertEquals(home.getSearchBoxValue(), "Samsung");
+		Assert.assertEquals(home.getSearchBoxValue(), "Samsung");
 
 	}
-	
+
 	@Test(priority = 12)
 	public void verifySearchWithValidProduct() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.searchProduct("Samsung");
+		home.searchProduct("Samsung");
 
-	    Assert.assertTrue(home.getCurrentURL().contains("s?k=Samsung"));
+		Assert.assertTrue(home.getCurrentURL().contains("s?k=Samsung"));
 
 	}
-	
+
 	@Test(priority = 13)
 	public void verifySearchWithInvalidProduct() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.searchProduct("XYZ123INVALIDPRODUCT");
+		home.searchProduct("XYZ123INVALIDPRODUCT");
 
-	    Assert.assertTrue(home.getCurrentURL()
-	            .contains("XYZ123INVALIDPRODUCT"));
+		Assert.assertTrue(home.getCurrentURL().contains("XYZ123INVALIDPRODUCT"));
 
 	}
-	
+
 	@Test(priority = 14)
 	public void verifySearchWithEmptyText() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.enterSearchText("");
+		home.enterSearchText("");
 
-	    home.clickSearchButton();
+		home.clickSearchButton();
 
-	    Assert.assertTrue(home.getCurrentURL().contains("amazon"));
+		Assert.assertTrue(home.getCurrentURL().contains("amazon"));
 
 	}
-	
+
 	@Test(priority = 15)
 	public void verifySearchWithSpaces() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.searchProduct("     ");
+		home.searchProduct("     ");
 
-	    Assert.assertTrue(home.getCurrentURL().contains("amazon"));
+		Assert.assertTrue(home.getCurrentURL().contains("amazon"));
 
 	}
-	
+
 	@Test(priority = 16)
 	public void verifySearchWithNumbers() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.searchProduct("123456");
+		home.searchProduct("123456");
 
-	    Assert.assertTrue(home.getCurrentURL().contains("123456"));
+		Assert.assertTrue(home.getCurrentURL().contains("123456"));
 
 	}
-	
+
 	@Test(priority = 17)
 	public void verifySearchWithSpecialCharacters() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.searchProduct("@#$%");
+		home.searchProduct("@#$%");
 
-	    Assert.assertTrue(home.getCurrentURL().contains("amazon"));
+		Assert.assertTrue(home.getCurrentURL().contains("amazon"));
 
 	}
-	
-	@Test(priority=18)
+
+	@Test(priority = 18)
 	public void verifySearchResultTitle() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.searchProduct("Laptop");
+		home.searchProduct("Laptop");
 
-	    Assert.assertTrue(
-	            home.getPageTitle()
-	                    .contains("Laptop"));
+		Assert.assertTrue(home.getPageTitle().contains("Laptop"));
 
 	}
-	
-	@Test(priority=19)
+
+	@Test(priority = 19)
 	public void verifySearchResultURL() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.searchProduct("Laptop");
+		home.searchProduct("Laptop");
 
-	    Assert.assertTrue(
-	            home.getCurrentURL()
-	                    .contains("s"));
+		Assert.assertTrue(home.getCurrentURL().contains("s"));
 	}
-	
-	@Test(priority=20)
+
+	@Test(priority = 20)
 	public void verifySearchBoxClear() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.enterSearchText("Samsung");
+		home.enterSearchText("Samsung");
 
-	    home.clearSearchBox();
+		home.clearSearchBox();
 
-	    Assert.assertEquals(
-	            home.getSearchBoxValue(),
-	            "");
+		Assert.assertEquals(home.getSearchBoxValue(), "");
 
 	}
-	
-	
+
 	// ===============================
 	// Sprint 2 - Search Tester
 	// TC021 - TC030
-    // ===============================
-	
+	// ===============================
+
 	@Test(priority = 21)
 	public void verifyLogoClick() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.clickLogo();
+		home.clickLogo();
 
-	    Assert.assertTrue(driver.getCurrentUrl().contains("amazon.in"));
+		Assert.assertTrue(driver.getCurrentUrl().contains("amazon.in"));
 	}
-	
+
 	@Test(priority = 22)
 	public void verifyCartClick() {
-		
+
 		HomePage home = new HomePage(driver);
-		
+
 		home.clickCart();
-		
+
 		Assert.assertTrue(driver.getCurrentUrl().contains("/cart"));
 	}
-	
+
 	@Test(priority = 23)
 	public void verifySignInClick() {
-		
+
 		HomePage home = new HomePage(driver);
-		
+
 		home.clickSignIn();
-		
+
 		Assert.assertTrue(driver.getCurrentUrl().contains("signin"));
 	}
 
 	@Test(priority = 24)
 	public void verifyReturnsOrdersClick() {
-		
+
 		HomePage home = new HomePage(driver);
-		
+
 		home.clickReturnsOrders();
-		
+
 		Assert.assertTrue(driver.getCurrentUrl().contains("signin"));
 	}
-	
+
 	@Test(priority = 25)
 	public void verifyHamburgerMenuClick() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.clickHamburgerMenu();
+		home.clickHamburgerMenu();
 
-	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-	    WebElement menu = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("hmenu-content")));
+		WebElement menu = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("hmenu-content")));
 
-	    Assert.assertTrue(menu.isDisplayed());
+		Assert.assertTrue(menu.isDisplayed());
 	}
-	
+
 	@Test(priority = 26)
 	public void verifyLanguageSelectorClick() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.clickLanguageSelector();
+		home.clickLanguageSelector();
 
-	    Assert.assertTrue(driver.getPageSource().contains("English"));
+		Assert.assertTrue(driver.getPageSource().contains("English"));
 	}
-	
+
 	@Test(priority = 27)
 	public void verifyDeliveryLocationClick() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.clickDeliveryLocation();
+		home.clickDeliveryLocation();
 
-	    Assert.assertTrue(driver.getPageSource().contains("Choose your location"));
+		Assert.assertTrue(driver.getPageSource().contains("Choose your location"));
 	}
-	
+
 	@Test(priority = 28)
 	public void verifyTodaysDealsClick() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.clickTodaysDeals();
+		home.clickTodaysDeals();
 
-	    Assert.assertTrue(driver.getCurrentUrl().contains("/deals"));
+		Assert.assertTrue(driver.getCurrentUrl().contains("/deals"));
 	}
-	
+
 	@Test(priority = 29)
 	public void verifyCustomerServiceClick() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.clickCustomerService();
+		home.clickCustomerService();
 
-	    Assert.assertTrue(driver.getTitle().contains("Customer Service"));
+		Assert.assertTrue(driver.getTitle().contains("Customer Service"));
 	}
-	
+
 	@Test(priority = 30)
 	public void verifyGiftCardsClick() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.clickGiftCards();
+		home.clickGiftCards();
 
-	    Assert.assertTrue(driver.getTitle().contains("Gift Cards"));
+		Assert.assertTrue(driver.getTitle().contains("Gift Cards"));
 	}
-	
+
 	// ===============================
-		// Sprint 2 - footer Tester
-		// TC021 - TC030
-	    // ===============================
-	
+	// Sprint 2 - footer Tester
+	// TC021 - TC030
+	// ===============================
+
 	@Test(priority = 31)
 	public void verifyFooterDisplayed() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    Assert.assertTrue(home.isFooterDisplayed());
+		Assert.assertTrue(home.isFooterDisplayed());
 
 	}
-	
+
 	@Test(priority = 32)
 	public void verifyBackToTop() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    JavascriptExecutor js = (JavascriptExecutor) driver;
+		JavascriptExecutor js = (JavascriptExecutor) driver;
 
-	    js.executeScript("window.scrollTo(0,document.body.scrollHeight)");
+		js.executeScript("window.scrollTo(0,document.body.scrollHeight)");
 
-	    home.clickBackToTop();
+		home.clickBackToTop();
 
-	    Assert.assertTrue(driver.getCurrentUrl().contains("amazon"));
+		Assert.assertTrue(driver.getCurrentUrl().contains("amazon"));
 
 	}
-	
+
 	@Test(priority = 33)
 	public void verifyAboutAmazonLink() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.clickAboutAmazon();
+		home.clickAboutAmazon();
 
-	    Assert.assertTrue(driver.getTitle().contains("About"));
+		Assert.assertTrue(driver.getTitle().contains("About"));
 
 	}
-	
+
 	@Test(priority = 34)
 	public void verifyCareersLink() {
-		
+
 		HomePage home = new HomePage(driver);
-		
+
 		home.clickCareers();
 //		System.out.println("Title: " +  driver.getTitle());
 //		System.out.println("Url: " +  driver.getCurrentUrl());
-		
+
 		Assert.assertTrue(driver.getCurrentUrl().contains("https://amazon.jobs/en/"));
 	}
-	
+
 	@Test(priority = 35)
 	public void verifyPressReleasesLink() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.clickPressReleases();
+		home.clickPressReleases();
 
-	    Assert.assertTrue(driver.getTitle().contains("Press"));
+		Assert.assertTrue(driver.getTitle().contains("Press"));
 
 	}
-	
-	
+
 	@Test(priority = 36)
 	public void verifyAccessiblilityLink() {
-		
+
 		HomePage home = new HomePage(driver);
-		
+
 		home.clickAccessibility();
-		
+
 //		Assert.assertTrue(driver.getTitle().contains("accessibility"));
 	}
-	
+
 	@Test(priority = 37)
 	public void verifyConditionsOfUseLink() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.clickConditionsOfUse();
+		home.clickConditionsOfUse();
 
-	    Assert.assertTrue(driver.getTitle().contains("Conditions"));
+		Assert.assertTrue(driver.getTitle().contains("Conditions"));
 
 	}
-	
+
 	@Test(priority = 38)
 	public void verifyPrivacyNoticeLink() {
 
-	    HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(driver);
 
-	    home.clickPrivacyNotice();
+		home.clickPrivacyNotice();
 
-	    Assert.assertTrue(driver.getTitle().contains("Privacy"));
+		Assert.assertTrue(driver.getTitle().contains("Privacy"));
 
 	}
-	
+
 	@Test(priority = 39)
 	public void verifyHelpLink() {
-		
+
 		HomePage home = new HomePage(driver);
-		
+
 		home.clickHelp();
-		
+
 		Assert.assertTrue(driver.getCurrentUrl().contains("help"));
 	}
-	
+
 	@Test(priority = 40)
 	public void verifyFooterLogo() {
-		
+
 		HomePage home = new HomePage(driver);
-		
+
 		Assert.assertTrue(home.isFooterLogoDisplayed());
 	}
 }

@@ -6,322 +6,426 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SearchPage {
 
-    WebDriver driver;
+    private WebDriver driver;
+    private WebDriverWait wait;
+
+    // =========================================================
+    // Constructor
+    // =========================================================
 
     public SearchPage(WebDriver driver) {
 
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+
         PageFactory.initElements(driver, this);
-
     }
-    
- // =========================
-    // Locators (Tum fill karna)
-    // =========================
-
-    private By searchResults = By.id("twotabsearchtextbox");
-
-    private By firstProduct = By.xpath("//img[@alt='Samsung Galaxy M56 5G Mobile (Black, 8GB RAM, 128GB Storage)| Segment Slimmest | Gorilla Glass Victus+ | 10 Bit HDR Video...']");
-
-    private By productTitle = By.xpath("//span[contains(text(),'Galaxy M56 5G Mobile (Black, 8GB RAM, 128GB Storag')]");
-
-    private By productPrice = By.xpath("//span[normalize-space()='25,999']");
-
-    private By sortDropdown = By.xpath("//span[@class='a-dropdown-prompt']");
-
-    private By lowToHigh = By.id("s-result-sort-select_1");
-
-    private By highToLow = By.id("s-result-sort-select_2");
-
-    private By brandFilter = By.xpath("//span[@class='a-size-base a-color-base'][normalize-space()='HP']");
-
-    private By ratingFilter = By.xpath("//i[@class='a-icon a-icon-star-medium a-star-medium-4']");
 
 
+    // =========================================================
+    // Locators - Search Result
+    // =========================================================
 
-    // =========================
-    // Methods
-    // =========================
+    private By searchResults =
+            By.xpath("//div[@data-component-type='s-search-result']");
 
+    private By productList =
+            By.xpath("//div[@data-component-type='s-search-result']");
+
+    private By productTitles =
+            By.xpath("//div[contains(@data-component-type,'s-search-result')]//h2//span");
+
+
+    // =========================================================
+    // Locators - Products
+    // =========================================================
+
+    private By firstProduct =
+            By.xpath("(//div[@data-component-type='s-search-result']//a[.//img[@class='s-image']])[1]");
+
+    private By secondProduct =
+            By.xpath("(//div[@data-component-type='s-search-result']//a[.//img[@class='s-image']])[2]");
+
+    private By firstProductImage =
+            By.xpath("(//div[@data-component-type='s-search-result']//img[@class='s-image'])[1]");
+
+    private By productImages =
+            By.xpath("//div[@data-component-type='s-search-result']//img[@class='s-image']");
+
+    private By productTitle =
+            By.xpath(
+                    "//div[@class='s-widget-container s-spacing-small s-widget-container-height-small celwidget slot=MAIN template=SEARCH_RESULTS widgetId=search-results_1']//span[contains(text(),'Galaxy M07 Mobile (Black, 4GB RAM, 64GB Storage) |')]");
+
+    private By productPrice =
+            By.xpath(
+                    "(//div[@data-component-type='s-search-result']//span[@class='a-price-whole'])[1]");
+
+
+    // =========================================================
+    // Locators - Sort
+    // =========================================================
+
+    private By sortDropdown =
+            By.xpath("//span[@class='a-dropdown-prompt']");
+
+    private By sortDropdownSelect =
+            By.id("s-result-sort-select");
+
+    private By lowToHigh =
+            By.id("s-result-sort-select_1");
+
+    private By highToLow =
+            By.id("s-result-sort-select_2");
+
+
+    // =========================================================
+    // Locators - Filters
+    // =========================================================
+
+    private By brandFilter =
+            By.xpath("//span[@class='a-size-base a-color-base'][normalize-space()='HP']");
+
+    private By ratingFilter =
+            By.xpath("//i[@class='a-icon a-icon-star-medium a-star-medium-4']");
+
+
+    // =========================================================
+    // Locators - Pagination
+    // =========================================================
+
+    private By nextPage =
+            By.xpath("//a[contains(@class, 's-pagination-next')]");
+
+    private By previousPage =
+            By.xpath("//a[contains(@class, 's-pagination-previous')]");
+
+
+    // =========================================================
     // TC051
+    // Verify Search Result Page
+    // =========================================================
+
     public boolean isSearchResultPageDisplayed() {
 
         return driver.getTitle().contains("Samsung");
-
     }
 
 
+    // =========================================================
     // TC052
+    // Verify Search Results Displayed
+    // =========================================================
+
     public boolean areSearchResultsDisplayed() {
 
-        return driver.findElements(searchResults).size() > 0;
-
+        return !driver.findElements(searchResults).isEmpty();
     }
 
 
+    // =========================================================
     // TC053
+    // Get Product Count
+    // =========================================================
+
     public int getProductCount() {
 
         return driver.findElements(searchResults).size();
-
     }
 
 
+    // =========================================================
     // TC054
+    // Click First Product
+    // =========================================================
+
     public void clickFirstProduct() {
 
-        driver.findElement(firstProduct).click();
+        WebElement product =
+                wait.until(
+                        ExpectedConditions.visibilityOfElementLocated(firstProduct)
+                );
 
+        String productUrl = product.getAttribute("href");
+
+        if (productUrl == null || productUrl.isEmpty()) {
+
+            throw new RuntimeException(
+                    "First product ka href nahi mila."
+            );
+        }
+
+        driver.get(productUrl);
     }
 
 
+    // =========================================================
     // TC055
+    // Get Product Title
+    // =========================================================
+
     public String getProductTitle() {
 
-        return driver.findElement(productTitle).getText();
+        WebElement title =
+                wait.until(
+                        ExpectedConditions.visibilityOfElementLocated(productTitle)
+                );
 
+        return title.getText();
     }
 
 
+    // =========================================================
     // TC056
+    // Get Product Price
+    // =========================================================
+
     public String getProductPrice() {
 
-        return driver.findElement(productPrice).getText();
+        WebElement price =
+                wait.until(
+                        ExpectedConditions.visibilityOfElementLocated(productPrice)
+                );
 
+        return price.getText();
     }
 
 
+    // =========================================================
     // TC057
+    // Sort Low To High
+    // =========================================================
+
     public void sortByLowToHigh() {
 
-        driver.findElement(sortDropdown).click();
+        wait.until(
+                ExpectedConditions.elementToBeClickable(sortDropdown)
+        ).click();
 
-        driver.findElement(lowToHigh).click();
-
+        wait.until(
+                ExpectedConditions.elementToBeClickable(lowToHigh)
+        ).click();
     }
 
 
+    // =========================================================
     // TC058
+    // Sort High To Low
+    // =========================================================
+
     public void sortByHighToLow() {
 
-        driver.findElement(sortDropdown).click();
+        wait.until(
+                ExpectedConditions.elementToBeClickable(sortDropdown)
+        ).click();
 
-        driver.findElement(highToLow).click();
-
+        wait.until(
+                ExpectedConditions.elementToBeClickable(highToLow)
+        ).click();
     }
 
 
+    // =========================================================
     // TC059
+    // Select Brand Filter
+    // =========================================================
+
     public void selectBrandFilter() {
 
-        driver.findElement(brandFilter).click();
-
+        wait.until(
+                ExpectedConditions.elementToBeClickable(brandFilter)
+        ).click();
     }
 
 
+    // =========================================================
     // TC060
+    // Select Customer Rating Filter
+    // =========================================================
+
     public void selectRatingFilter() {
 
-        driver.findElement(ratingFilter).click();
-
+        wait.until(
+                ExpectedConditions.elementToBeClickable(ratingFilter)
+        ).click();
     }
 
- // ==========================
-    // Locators 
-    // ==========================
 
-    private By productList = By.xpath("//img[@alt='Noise Pro 6R 1.46\" AMOLED Smart Watch, 1000 NITS, Powered by AI Pro, Built-in GPS, Strava Integration, Stainless Steel Dial, Video Watch Faces, 3ATM, Emergency SOS, TWS Connectivity (Pure Titanium)']");
-
-    private By secondProduct = By.xpath("(//div[@data-component-type='s-search-result'])[2]");
-
-    private By productImages = By.xpath("//div[@data-component-type='s-search-result']//img[@class='s-image']");
-
-    private By productTitleLinks = By.xpath("//div[@data-component-type='s-search-result']//h2/a");
-    
- // Amazon India search page par products ke title text (span) ka robust locator
-    private By productTitles = By.xpath("//div[contains(@data-component-type,'s-search-result')]//h2//span");
-
- // Amazon India ke unique pagination tag structure ko capture karne ke liye stable selector
-    private By nextPage = By.xpath("//a[contains(@class, 's-pagination-next')]");
- // Amazon India ke standard pagination bottom bar mein 'Next' aur 'Previous' buttons ke relative selectors
-  //  private By nextPage = By.xpath("//a[contains(@class, 's-pagination-next')]");
-    private By previousPage = By.xpath("//a[contains(@class, 's-pagination-previous')]");
-    private By sortDropdown1 = By.xpath("");
-
-    private By brandFilter1 = By.xpath("");
-
-    private By ratingFilter1 = By.xpath("");
-
-
-
-    // ==========================
-    // Methods
-    // ==========================
-
+    // =========================================================
     // TC061
+    // Click Second Product
+    // =========================================================
+
     public void clickSecondProduct() {
 
-        driver.findElement(secondProduct).click();
+        WebElement product =
+                wait.until(
+                        ExpectedConditions.elementToBeClickable(secondProduct)
+                );
 
+        product.click();
     }
 
 
+    // =========================================================
     // TC062
+    // Get Displayed Product Count
+    // =========================================================
+
     public int getDisplayedProductCount() {
 
+        wait.until(
+                ExpectedConditions.presenceOfElementLocated(productList)
+        );
+
         return driver.findElements(productList).size();
-
     }
 
 
-//    // TC063
-//    public boolean isProductImageDisplayed() {
-//
-//        return driver.findElements(productImages)
-//                .get(0)
-//                .isDisplayed();
-//
-//    }
+    // =========================================================
+    // TC063
+    // Verify Product Image
+    // =========================================================
 
- // TC063 Method Implementation
     public boolean isProductImageDisplayed() {
-        List<WebElement> elements = driver.findElements(productImages);
-        
-        // Checklist to prevent IndexOutOfBoundsException if search layout fails or takes time to load
-        if (!elements.isEmpty()) {
-            return elements.get(0).isDisplayed();
+
+        List<WebElement> elements =
+                driver.findElements(productImages);
+
+        if (elements.isEmpty()) {
+
+            return false;
         }
-        return false;
+
+        return elements.get(0).isDisplayed();
     }
 
- // TC064: Updated Method with Explicit Sync Handling
+
+    // =========================================================
+    // TC064
+    // Click First Product Title
+    // =========================================================
+
     public void clickFirstProductTitle() {
-        // Explicit wait lagayein taaki search grid page par load ho sake (Max 15 seconds)
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        wait.until(ExpectedConditions.presenceOfElementLocated(productTitleLinks));
 
-        List<WebElement> productLinks = driver.findElements(productTitleLinks);
-        
-        if (!productLinks.isEmpty()) {
-            WebElement firstProduct = productLinks.get(0);
-            
-            // Link visible aur clickable hone tak wait karein
-            wait.until(ExpectedConditions.visibilityOf(firstProduct));
-            
-            // Hover action step
-            Actions actions = new Actions(driver);
-            actions.moveToElement(firstProduct).perform();
-            
-            // Element successfully click karein
-            firstProduct.click();
-        } else {
-            throw new RuntimeException("Automation Error: Amazon India search results page par koi bhi product link nahi mila.");
-        }
+        WebElement firstProduct =
+                wait.until(
+                        ExpectedConditions.elementToBeClickable(firstProductImage)
+                );
+
+        firstProduct.click();
     }
 
- // TC065: Pahle kuch products (jaise top 3 ya 5) ke text titles fetch karne ka method
+
+    // =========================================================
+    // TC065
+    // Get First Few Product Titles
+    // =========================================================
+
     public List<String> getFirstFewProductTitles(int count) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        // Synchronization issue se bachne ke liye titles ke visible hone ka wait karein
-        wait.until(ExpectedConditions.presenceOfElementLocated(productTitles));
 
-        List<WebElement> elements = driver.findElements(productTitles);
-        List<String> titlesText = new ArrayList<>();
+        wait.until(
+                ExpectedConditions.presenceOfElementLocated(productTitles)
+        );
 
-        // Jitne items mange hain (count), list size ke hisaab se safely loops run karein
-        int limit = Math.min(elements.size(), count);
+        List<WebElement> elements =
+                driver.findElements(productTitles);
+
+        List<String> titlesText =
+                new ArrayList<>();
+
+        int limit =
+                Math.min(elements.size(), count);
+
         for (int i = 0; i < limit; i++) {
-            titlesText.add(elements.get(i).getText());
+
+            titlesText.add(
+                    elements.get(i).getText()
+            );
         }
-        
+
         return titlesText;
     }
 
-    // TC066: Target layout tak scroll karke seamlessly click karne ka method
-    public void clickNextPage1() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        
-        // Element page layout me generate hone tak explicit wait lagayein
-        WebElement nextBtnElement = wait.until(ExpectedConditions.presenceOfElementLocated(nextPage));
-        
-        // Sahi JavaScript array index syntax [0] use karein scroll karne ke liye
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", nextBtnElement);
-        
-        // Button target pointer ke dynamic aur clickable hone ka track wait complete karein
-        wait.until(ExpectedConditions.elementToBeClickable(nextBtnElement));
-        
-        nextBtnElement.click();
-    }
 
+    // =========================================================
+    // TC066
+    // Click Next Page
+    // =========================================================
 
-
- // Puraane javascript error se bachne ke liye safe smooth scroll utility method
-    private void scrollToElementAndClick(By locator) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
-        
-        // Correct array arguments index handler applied [0]
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element);
-        
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        element.click();
-    }
-
-    // Step 1 helper: Page 2 par jaane ke liye
     public void clickNextPage() {
+
         scrollToElementAndClick(nextPage);
     }
 
-    // TC067 Action: Page 2 se Previous page par wapas click karne ka method
+
+    // =========================================================
+    // TC067
+    // Click Previous Page
+    // =========================================================
+
     public void clickPreviousPage() {
+
         scrollToElementAndClick(previousPage);
     }
 
 
-  
-//    // TC067 Action: Page 2 se Previous page par wapas click karne ka method
-//    public void clickPreviousPage() {
-//        scrollToElementAndClick(previousPage);
-//    }
+    // =========================================================
+    // Pagination Utility
+    // =========================================================
+
+    private void scrollToElementAndClick(By locator) {
+
+        WebElement element =
+                wait.until(
+                        ExpectedConditions.presenceOfElementLocated(locator)
+                );
+
+        JavascriptExecutor js =
+                (JavascriptExecutor) driver;
+
+        js.executeScript(
+                "arguments[0].scrollIntoView({behavior:'smooth', block:'center'});",
+                element
+        );
+
+        wait.until(
+                ExpectedConditions.elementToBeClickable(element)
+        );
+
+        element.click();
+    }
 
 
+    // =========================================================
     // TC068
+    // Verify Sort Dropdown Displayed
+    // =========================================================
+
     public boolean isSortDropdownDisplayed() {
 
-        return driver.findElement(sortDropdown)
-                .isDisplayed();
+        try {
 
-    }
+            WebElement dropdown =
+                    wait.until(
+                            ExpectedConditions.visibilityOfElementLocated(
+                                    sortDropdownSelect
+                            )
+                    );
 
+            return dropdown.isDisplayed();
 
-    // TC069
-    public boolean isBrandFilterDisplayed() {
+        } catch (Exception e) {
 
-        return driver.findElement(brandFilter)
-                .isDisplayed();
-
-    }
-
-
-    // TC070
-    public boolean isRatingFilterDisplayed() {
-
-        return driver.findElement(ratingFilter)
-                .isDisplayed();
-
+            return false;
+        }
     }
 
 }

@@ -21,7 +21,6 @@ public class HomePage extends BasePage {
 //    public void clickSignIn() {
 //
 //        click(signIn);
-
 //    }
 
 	// ==========================
@@ -174,11 +173,11 @@ public class HomePage extends BasePage {
 		return driver.getTitle();
 
 	}
-	
+
 	// ===============================
-		// Sprint 3
-		// TC021 - TC030
-		// ===============================
+	// Sprint 3
+	// TC021 - TC030
+	// ===============================
 
 	private By amazonLogo = By.id("nav-logo-sprites");
 
@@ -199,78 +198,78 @@ public class HomePage extends BasePage {
 	private By customerService = By.linkText("Customer Service");
 
 	private By giftCards = By.linkText("Gift Cards");
-	
+
 	// Method..............
-	
+
 	// Logo
 	public void clickLogo() {
-	    driver.findElement(amazonLogo).click();
+		driver.findElement(amazonLogo).click();
 	}
-	
+
 	// Cart
 	public void clickCart() {
-	    driver.findElement(cartIcon).click();
+		driver.findElement(cartIcon).click();
 	}
-	
+
 	// Sign In
 	public void clickSignIn() {
-	    driver.findElement(signInLink).click();
+		driver.findElement(signInLink).click();
 	}
-	
+
 	// Returns & Orders
 	public void clickReturnsOrders() {
-	    driver.findElement(returnsOrders).click();
+		driver.findElement(returnsOrders).click();
 	}
-	
+
 	// Hamburger
 	public void clickHamburgerMenu() {
-	    driver.findElement(hamburgerMenu).click();
+		driver.findElement(hamburgerMenu).click();
 	}
-	
+
 	// Language
 	public void clickLanguageSelector() {
-	    driver.findElement(languageSelector).click();
+		driver.findElement(languageSelector).click();
 	}
-	
+
 	// Delivery Location
 	public void clickDeliveryLocation() {
-	    driver.findElement(deliveryLocation).click();
+		driver.findElement(deliveryLocation).click();
 	}
-	
-	//Today's Deals
+
+	// Today's Deals
 	public void clickTodaysDeals() {
-	    driver.findElement(todaysDeals).click();
+		driver.findElement(todaysDeals).click();
 	}
-	
+
 	// Customer Service
 	public void clickCustomerService() {
-	    driver.findElement(customerService).click();
+		driver.findElement(customerService).click();
 	}
-	
-	//Gift Cards
+
+	// Gift Cards
 	public void clickGiftCards() {
-	    driver.findElement(giftCards).click();
+		driver.findElement(giftCards).click();
 	}
-	
+
 	// ===============================
-		// Sprint 2 - footer section
-		// TC030 - TC040
-		// ===============================
-	
-	//locators
-	
+	// Sprint 2 - footer section
+	// TC030 - TC040
+	// ===============================
+
+	// locators
+
 	private By footer = By.xpath("//div[@id='navFooter']");
-	
+
 	private By backToTop = By.id("navBackToTop");
-	
+
 	private By aboutAmazon = By.linkText("About Amazon");
-	
+
 	private By careers = By.linkText("Careers");
-	
+
 	private By pressReleases = By.linkText("Press Releases");
-	
+
 	private By accessibility = By.xpath("//a[@class='nav_a'][normalize-space()='Help']");
-	
+
 	private By conditionsOfUse = By.linkText("Conditions of Use & Sale");
 
 	private By privacyNotice = By.linkText("Privacy Notice");
@@ -278,74 +277,73 @@ public class HomePage extends BasePage {
 	private By helpLink = By.partialLinkText("Help");
 
 	private By footerLogo = By.cssSelector(".nav-logo-base");
-	
-	//methods
-	//footer
+
+	// methods
+	// footer
 	public boolean isFooterDisplayed() {
 
-	    return driver.findElement(footer).isDisplayed();
+		return driver.findElement(footer).isDisplayed();
 
 	}
-	
+
 	// BackToTop
 	public void clickBackToTop() {
 
-    driver.findElement(backToTop).click();
+		driver.findElement(backToTop).click();
 
-    }
-	
+	}
+
 	// AboutAmazon
 	public void clickAboutAmazon() {
 
-	    driver.findElement(aboutAmazon).click();
+		driver.findElement(aboutAmazon).click();
 
 	}
-	
-	//Careers
+
+	// Careers
 	public void clickCareers() {
-		
+
 		driver.findElement(careers).click();
 	}
-	
+
 	// PressReleases
 	public void clickPressReleases() {
-		
+
 		driver.findElement(pressReleases).click();
 	}
-	
+
 	// Accessibility
 	public void clickAccessibility() {
-		
+
 		driver.findElement(accessibility).click();
 	}
-	
+
 	// ConditionsOfUse
 	public void clickConditionsOfUse() {
 
-	    driver.findElement(conditionsOfUse).click();
+		driver.findElement(conditionsOfUse).click();
 
 	}
-	
+
 	// PrivacyNotice
 	public void clickPrivacyNotice() {
 
-	    driver.findElement(privacyNotice).click();
+		driver.findElement(privacyNotice).click();
 
 	}
-	
+
 	// Help
 	public void clickHelp() {
 
-	    driver.findElement(helpLink).click();
+		driver.findElement(helpLink).click();
 
 	}
-	
+
 	// FooterLogoDisplayed
 	public boolean isFooterLogoDisplayed() {
 
-	    return driver.findElement(footerLogo).isDisplayed();
+		return driver.findElement(footerLogo).isDisplayed();
 
 	}
-	
-	
+
 }
